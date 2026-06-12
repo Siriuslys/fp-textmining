@@ -1,0 +1,6 @@
+model,embedding,dim,n_topics_auto,n_topics_final,noise_%,coherence_C_v,emb_time_s,fit_time_s,total_time_s
+mpnet-multi,paraphrase-multilingual-mpnet-base-v2,768,11,11,28.97,0.8028,168.5,54.7,223.2
+indo-sbert-l,denaya/indoSBERT-large,256,23,14,23.14,0.7887,1017.4,33.0,1050.4
+indo-e5-base,intfloat/multilingual-e5-base,768,36,14,24.41,0.7874,491.3,37.6,528.9
+indo-sbert-n,naufalihsan/indonesian-sbert-large,1024,21,14,19.79,0.7644,566.4,36.4,602.8
+indo-sbert,firqaaa/indo-sentence-bert-base,768,6,6,21.8,0.7279,438.0,29.6,467.6
