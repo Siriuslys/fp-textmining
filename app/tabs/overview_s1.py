@@ -78,7 +78,7 @@ def render(df_labels: pd.DataFrame | None, df_s1: pd.DataFrame | None) -> None:
     st.markdown("#### LDA, NMF, dan BERTopic berhadapan")
     st.caption(
         "Coherence Score (C\u1d65) pada beberapa nilai k untuk LDA dan NMF; "
-        "BERTopic dijalankan dengan `nr_topics='auto'` dan menghasilkan 19 topik."
+        "BERTopic dijalankan dengan target k = 25 topik."
     )
 
     if df_s1 is None:
@@ -113,24 +113,15 @@ def render(df_labels: pd.DataFrame | None, df_s1: pd.DataFrame | None) -> None:
             ui.plotly_chart(fig)
 
         with c2:
-            best_lda_idx = df_s1["LDA C_v"].idxmax()
-            best_nmf_idx = df_s1["NMF C_v"].idxmax()
-
-            st.markdown("**Skor terbaik**")
-            st.markdown(
-                f"""
-                <div style="font-family:'JetBrains Mono',monospace; font-size:0.85rem; line-height:1.9;">
-                <span style="color:{MODEL_COLORS['NMF']}; font-weight:700;">NMF</span>
-                &nbsp;— Cᵥ {df_s1.loc[best_nmf_idx, 'NMF C_v']:.4f} @ k={int(df_s1.loc[best_nmf_idx, 'k'])}
-                <span style="color:#9C6B30;">★ tertinggi</span><br/>
-                <span style="color:{MODEL_COLORS['BERTopic']}; font-weight:700;">BERTopic</span>
-                &nbsp;— Cᵥ 0.7780 @ 19 topik (auto)<br/>
-                <span style="color:{MODEL_COLORS['LDA']}; font-weight:700;">LDA</span>
-                &nbsp;— Cᵥ {df_s1.loc[best_lda_idx, 'LDA C_v']:.4f} @ k={int(df_s1.loc[best_lda_idx, 'k'])}
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+            st.markdown("**Ringkasan metrik S1 — k = 25**")
+            df_summary = pd.DataFrame({
+                "Model": ["NMF ★", "BERTopic", "LDA"],
+                "Cᵥ": [0.8250, 0.7780, 0.6162],
+                "Silhouette": [0.6393, 0.1121, 0.5442],
+                "Topic Div.": [0.9400, 0.9263, 0.8520],
+                "Outlier": ["–", "27,2%", "–"],
+            })
+            ui.df(df_summary, hide_index=True)
             st.markdown("**Tabel lengkap**")
             ui.df(df_s1, hide_index=True, height=230)
 
